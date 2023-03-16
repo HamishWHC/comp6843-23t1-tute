@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Hamish's Amazing SSTI Demo</title>
+    </head>
+
+    <body>
+        {% if user is not none %}
+        Oh hey it's {{user}}.
+        {% else %}
+        Who tf are you? Please provide user parameter.
+        {% endif %}
+    </body>
+</html>
